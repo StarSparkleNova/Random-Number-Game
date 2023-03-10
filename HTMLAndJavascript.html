@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Random Number Game</title>
+  </head>
+  <body>
+    <h1>Random Number Game</h1>
+    <p>Guess the random number between 1 and 100.</p>
+    <!-- The form to allow the user to input their guesses -->
+    <form>
+      <label for="guess">Enter your guess:</label>
+      <input type="number" id="guess" name="guess" min="1" max="100">
+      <button type="submit">Submit</button>
+    </form>
+    <!-- The div element to display the game messages -->
+    <div id="message"></div>
+    <script>
+      // The maximum number of guesses allowed
+      const maxGuesses = 10;
+      // The random number to guess
+      let randomNumber = getRandomNumber();
+      // The number of guesses made so far
+      let numGuesses = 0;
+
+      // Add an event listener to the form's submit event
+      document.querySelector('form').addEventListener('submit', function(event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+        // Get the user's guess from the input field
+        const guess = parseInt(document.querySelector('#guess').value);
+
+        // Check if the guess is invalid
+        if (isNaN(guess) || guess < 1 || guess > 100) {
+          // Display an error message if the guess is invalid
+          document.querySelector('#message').textContent = 'Invalid input. Please enter a number between 1 and 100.';
+          return;
+        }
+
+        // Increment the number of guesses made
+        numGuesses++;
+
+        // Check if the guess is correct
+        if (guess === randomNumber) {
+          // Display a success message if the guess is correct
+          document.querySelector('#message').textContent = `Congratulations! You guessed the number in ${numGuesses} tries.`;
+          // Disable the input field and submit button
+          document.querySelector('#guess').disabled = true;
+          return;
+        } else if (guess < randomNumber) {
+          // Display a message to guess higher if the guess is too low
+          document.querySelector('#message').textContent = 'Too low. Try again.';
+        } else {
+          // Display a message to guess lower if the guess is too high
+          document.querySelector('#message').textContent = 'Too high. Try again.';
+        }
+
+        // Check if the maximum number of guesses has been reached
+        if (numGuesses === maxGuesses) {
+          // Display a message if the maximum number of guesses has been reached
+          document.querySelector('#message').textContent = `Sorry, you ran out of guesses. The number was ${randomNumber}.`;
+          // Disable the input field and submit button
+          document.querySelector('#guess').disabled = true;
+        }
+      });
+
+      // A function to generate a random number between 1 and 100
+      function getRandomNumber() {
+        return Math.floor(Math.random() * 100) + 1;
+      }
+    </script>
+  </body>
+</html>
