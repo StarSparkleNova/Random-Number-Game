@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>Random Number Game</title>
+	<meta charset="UTF-8">
+	<title>Random Number Game</title>
+	<link rel="stylesheet" href="style.css">
   </head>
   <body>
     <h1>Random Number Game</h1>
@@ -15,6 +16,8 @@
     </form>
     <!-- The div element to display the game messages -->
     <div id="message"></div>
+    <!-- The Restart button -->
+    <button id="restart">Restart</button>
     <script>
       // The maximum number of guesses allowed
       const maxGuesses = 10;
@@ -46,7 +49,6 @@
           document.querySelector('#message').textContent = `Congratulations! You guessed the number in ${numGuesses} tries.`;
           // Disable the input field and submit button
           document.querySelector('#guess').disabled = true;
-          return;
         } else if (guess < randomNumber) {
           // Display a message to guess higher if the guess is too low
           document.querySelector('#message').textContent = 'Too low. Try again.';
@@ -64,10 +66,22 @@
         }
       });
 
+      // Add an event listener to the Restart button
+      document.querySelector('#restart').addEventListener('click', function() {
+        // Reset the game variables
+        numGuesses = 0;
+        randomNumber = getRandomNumber();
+        // Reset the input field and game message
+        document.querySelector('#guess').value = '';
+        document.querySelector('#message').textContent = '';
+        // Re-enable the input field and submit button
+        document.querySelector('#guess').disabled = false;
+      });
+
       // A function to generate a random number between 1 and 100
       function getRandomNumber() {
         return Math.floor(Math.random() * 100) + 1;
       }
     </script>
-  </body>
+	</body>
 </html>
